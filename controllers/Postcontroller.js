@@ -67,7 +67,7 @@ const getCommentsByPost = async(req,res) => {
         const comments = await Post.find({_id:PostId})
         res.status(StatusCodes.OK).json(comments);
     }catch(err){
-        res.status(StatusCodes.BadRequestError).json('error getting comments');
+        res.status(StatusCodes.BAD_REQUEST).json('error getting comments');
     }
 }
 

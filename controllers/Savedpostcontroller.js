@@ -4,12 +4,12 @@ const customError = require('../errors')
 const { StatusCodes } = require('http-status-codes')
 
 const createSavedPost = async(req,res) => {
-    const {SavedPostImg,SavedPostAuthor,SavedPostTitle,SavedPostBody,SavedPostAuthorImg} = req.body
+    const {SavedPostImg,SavedPostAuthor,SavedPostTitle,SavedPostBody} = req.body
     try{
         const sessionUser = await User.findOne({username:req.user.username})
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const newSavedPost = await Savedpost.create({userId:sessionUser._id,SavedPostImg,
-        SavedPostAuthor,SavedPostTitle,SavedPostBody,SavedPostAuthorImg})
+        SavedPostAuthor,SavedPostTitle,SavedPostBody})
         res.status(StatusCodes.OK).json('saved succesfully')
     }catch(err){
         res.status(StatusCodes.BAD_REQUEST).json('error saving post')

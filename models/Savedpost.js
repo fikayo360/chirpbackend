@@ -7,47 +7,19 @@ const SavedPostSchema = new mongoose.Schema({
     SavedPostImg:{
         type:String
     },
-    SavedPostauthor:{
+    SavedPostAuthor:{
         type:String
     },
-    SavedPosttitle:{
+    SavedPostTitle:{
         type:String
     },
-    SavedPostbody:{
+    SavedPostBody:{
         type:String
     },
     
     SavedPostAuthorImg:{
         type:String
-    },
-    
-    SavedPostComments:[
-        {
-        SavedPostId:{
-            type:String
-        },
-        SavedPostcommentAuthor:{
-            type:String
-        },
-        SavedPostcommentProfilePic:{
-            type:String
-        },
-        SavedPostcommentBody:{
-            type:String
-        }
-
-        }
-    ],
-    PostLikes:[
-        {
-            SavedauthorId:{
-                type:String
-            },
-            SavedPostId:{
-                type:String
-            }
-        }
-    ]
+    }
 },
 { timestamps: true }
 )

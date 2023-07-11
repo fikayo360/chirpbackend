@@ -64,7 +64,7 @@ const getCommentsByPost = async(req,res) => {
         const sessionUser = await User.findOne({username:req.user.username})
         console.log(sessionUser);
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
-        const comments = await Post.find({_id:PostId})
+        const comments = await Post.findOne({_id:PostId})
         res.status(StatusCodes.OK).json(comments);
     }catch(err){
         res.status(StatusCodes.BAD_REQUEST).json('error getting comments');

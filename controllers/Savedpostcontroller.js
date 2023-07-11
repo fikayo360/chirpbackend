@@ -31,6 +31,7 @@ const deleteSavedPost = async(req,res) => {
     const {savedpostId} = req.params
     try{
         const sessionUser = await User.findOne({username:req.user.username})
+      
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const deletepost = await Savedpost.findByIdAndDelete({ _id: savedpostId });
         res.status(StatusCodes.OK).json('deleted')

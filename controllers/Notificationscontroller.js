@@ -11,7 +11,7 @@ const getNotications = async (req,res) => {
         const notifications = await Notification.find({userId:sessionUser._id})
         res.status(StatusCodes.OK).json(notifications)
     }catch(err){
-        throw new customError.BadRequestError(err)
+        res.status(StatusCodes.BAD_REQUEST).json('error getting notifications')
     }
 }
 
@@ -23,7 +23,7 @@ const createNotifications = async(req,res) => {
         const notificationItem = await Notification.create({userId:sessionUser._id,profilePic,username,body})
         res.status(StatusCodes.OK).json('saved succesfully')
     }catch(err){
-        throw new customError.BadRequestError(err)
+        res.status(StatusCodes.BAD_REQUEST).json('error creating notifications')
     }
 }
 

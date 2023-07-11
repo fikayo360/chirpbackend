@@ -58,6 +58,19 @@ const commentPost = async(req,res) => {
     }
 }
 
+const getCommentsByPost = async(req,res) => {
+    const { PostId } = req.body
+    try{
+        const sessionUser = await User.findOne({username:req.user.username})
+        console.log(sessionUser);
+        if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
+        const comments = await Post.find({_id:PostId})
+        res.status(StatusCodes.OK).json(comments);
+    }catch(err){
+        res.status(StatusCodes.BadRequestError).json('error getting comments');
+    }
+}
+
 const likePost = async(req,res) => {
     try{
         const {authorName,postId} = req.body
@@ -78,4 +91,4 @@ const likePost = async(req,res) => {
 
 
 
-module.exports = {publishPost,getFriendsPost,commentPost,likePost}
+module.exports = {publishPost,getFriendsPost,commentPost,likePost,getCommentsByPost}

@@ -59,7 +59,6 @@ const commentPost = async(req,res) => {
 }
 
 const getPostByUser = async(req,res) => {
-    const PostId = req.query.PostId
     try{
         const sessionUser = await User.findOne({username:req.user.username})
         console.log(sessionUser);

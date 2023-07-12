@@ -8,7 +8,7 @@ router.route("/publish").post(authUser,publishPost)
 router.route("/getFriendsPost").get(authUser,getFriendsPost)
 router.route("/commentPost").post(authUser,commentPost)
 router.route("/LikePost").post(authUser,likePost)
-router.route("/postByUser").post(authUser,getPostByUser)
+router.route("/postByUser").get(authUser,getPostByUser)
 router.route("/getComments").get(authUser,getCommentsByPost)
 
 

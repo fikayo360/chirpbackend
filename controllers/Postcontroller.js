@@ -58,6 +58,19 @@ const commentPost = async(req,res) => {
     }
 }
 
+const getPostByUser = async(req,res) => {
+    const PostId = req.query.PostId
+    try{
+        const sessionUser = await User.findOne({username:req.user.username})
+        console.log(sessionUser);
+        if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
+        const userPost = await Post.find({userId:sessionUser._id})
+        res.status(StatusCodes.OK).json(userPost)
+    }catch(err){
+        res.status(StatusCodes.BAD_REQUEST).json('error occured')
+    }
+}
+
 const getCommentsByPost = async(req,res) => {
     const PostId = req.query.PostId;
     try{
@@ -91,4 +104,4 @@ const likePost = async(req,res) => {
 
 
 
-module.exports = {publishPost,getFriendsPost,commentPost,likePost,getCommentsByPost}
+module.exports = {publishPost,getFriendsPost,commentPost,likePost,getCommentsByPost,getPostByUser}

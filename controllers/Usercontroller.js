@@ -65,6 +65,20 @@ const login = async(req,res) => {
     }
 }
 
+const sessionUser = async (req, res) => {
+    try{
+        const sessionUser = await User.findOne({email:emailaddress})
+        if (!sessionUser){
+            return res.status(404).json('user not found')
+        }
+        const { password, ...others } = sessionUser._doc;
+            res.status(200).json(others)
+    }
+    catch(err){
+        throw new customError.BadRequestError(err)
+    }
+}
+
 const forgotPassword = async (req,res) => {
     const {emailaddress} = req.body
     const sessionUser = await User.findOne({email:emailaddress})
@@ -112,7 +126,7 @@ const findFriend = async (req,res) => {
     try{
         const foundUser = await User.findOne({username})
         if(!foundUser){
-            return res.status(StatusCodes.BAD_REQUEST).json('user not doesnot exist')
+            return res.status(StatusCodes.BAD_REQUEST).json('user not does not exist')
         }
         const { password, ...others } = foundUser._doc;
         res.status(StatusCodes.OK).json(others)
@@ -250,4 +264,4 @@ const followers = async(req,res) => {
     }
 }
 
-module.exports = {register,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile}
+module.exports = {register,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser}

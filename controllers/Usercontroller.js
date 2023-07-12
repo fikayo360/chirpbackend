@@ -67,12 +67,12 @@ const login = async(req,res) => {
 
 const sessionUser = async (req, res) => {
     try{
-        const sessionUser = await User.findOne({email:emailaddress})
+        const sessionUser = await User.findOne({username:req.user.username})
         if (!sessionUser){
             return res.status(404).json('user not found')
         }
         const { password, ...others } = sessionUser._doc;
-            res.status(200).json(others)
+            res.status(StatusCodes.OK).json(others)
     }
     catch(err){
         throw new customError.BadRequestError(err)

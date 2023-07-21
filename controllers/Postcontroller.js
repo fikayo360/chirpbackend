@@ -83,23 +83,24 @@ const getCommentsByPost = async(req,res) => {
     }
 }
 
-const likePost = async(req,res) => {
-    try{
-        const {authorName,postId} = req.body
-        let newlike = {authorName,postId}
-        let currentPost = await Post.findById({_id:postId})
-        currentPost.postLikes.map(item => {
-            if(item.authorName === newlike.authorName ){
-                res.status(StatusCodes.BAD_REQUEST).json('already liked post')
-            }
-    })
-        currentPost.postLikes.push(newlike)
-        await currentPost.save()
-        res.status(StatusCodes.OK).json('liked')
-    }catch(err){       
-        res.status(StatusCodes.BAD_REQUEST).json('errror occured')
+const likePost = async (req, res) => {
+    try {
+      const { authorName, postId } = req.body;
+      let newLike = { authorName, postId };
+      let currentPost = await Post.findById({ _id: postId });
+
+      if (currentPost.postLikes.some((item) => item.authorName === newLike.authorName)) {
+        return res.status(StatusCodes.BAD_REQUEST).json('Already liked post');
+      }
+  
+      // Add the new like to the postLikes array
+      currentPost.postLikes.push(newLike);
+      await currentPost.save();
+      res.status(StatusCodes.OK).json('Liked');
+    } catch (err) {
+      res.status(StatusCodes.BAD_REQUEST).json('Error occurred');
     }
-}
+  };
 
 
 

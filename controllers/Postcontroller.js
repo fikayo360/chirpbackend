@@ -16,7 +16,8 @@ const publishPost = async(req,res) => {
             ProfilePic:friend.profilepic,
             username:friend.username,
             body:`${sessionUser.username} added a new post`})
-            await notification.save()
+            const saved = await notification.save()
+            console.log(saved)
         }))
         res.status(StatusCodes.OK).json('post created ')
     }catch(err){

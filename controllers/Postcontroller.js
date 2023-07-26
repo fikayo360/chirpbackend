@@ -12,10 +12,11 @@ const publishPost = async(req,res) => {
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const newPost = await Post.create({userId:sessionUser._id,postImg,postAuthor,postTitle,postBody})
         const createNotifications = Promise.all(sessionUser.friends.map(async(friend)=>{
-            const notification = await Notification.create({ userId:friend._id,
-            ProfilePic:friend.profilepic,
-            username:friend.username,
-            body:`${sessionUser.username} added a new post`})
+            const foundFriend = await User.findOne({ username: friend })
+            const notification = await Notification.create({ userId:foundFriend._id,
+            ProfilePic:foundFriend.profilepic,
+            username:foundFriend.username,
+            body:`${foundFriend.username} added a new post`})
             const saved = await notification.save()
             console.log(saved)
         }))

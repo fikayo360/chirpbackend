@@ -11,7 +11,12 @@ const getTopStories = async (req,res) => {
             country: 'ng',
             pageSize:20
           })
-          res.status(StatusCodes.OK).json(newsItems)
+          if (newsItems.length > 0){
+            res.status(StatusCodes.OK).json(newsItems)
+          }else{
+            return res.status(StatusCodes.BAD_REQUEST).json('cant get news items')
+          }
+          
         }
     catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')
@@ -26,7 +31,11 @@ const getNewsByCategory = async (req,res) => {
             category: category,
             pageSize:20
           })
-          res.status(StatusCodes.OK).json(newsItems)
+          if (newsItems.length > 0){
+            res.status(StatusCodes.OK).json(newsItems)
+          }else{
+            return res.status(StatusCodes.BAD_REQUEST).json('cant get news items')
+          }
         }
     catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')

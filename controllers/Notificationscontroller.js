@@ -9,7 +9,9 @@ const getNotications = async (req,res) => {
         const sessionUser = await User.findOne({username:req.user.username})
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const notifications = await Notification.find({userId:sessionUser._id})
-        res.status(StatusCodes.OK).json(notifications)
+        if(notifications.length > 0){  
+            res.status(StatusCodes.OK).json(notifications) 
+        }else{return res.status(StatusCodes.BAD_REQUEST).json('no notifications yet')}
     }catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error getting notifications')
     }

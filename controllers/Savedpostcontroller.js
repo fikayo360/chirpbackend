@@ -21,7 +21,10 @@ const getSavedPosts = async(req,res) => {
         const sessionUser = await User.findOne({username:req.user.username})
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const savedPosts = await Savedpost.find({userId:sessionUser._id})
-        res.status(StatusCodes.OK).json(savedPosts)
+        if(savedPosts.length > 0){res.status(StatusCodes.OK).json(savedPosts)}
+        else{
+            return res.status(StatusCodes.BAD_REQUEST).json('no posts found')
+        }
     }catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json(err)
     }

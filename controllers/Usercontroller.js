@@ -187,7 +187,8 @@ const aroundYou = async (req,res) => {
         const sameStates = await User.find({state:sessionUser.state})
         const filteredSameStates = sameStates.filter((user) => user._id.toString() !== sessionUser._id.toString());
         aroundYou = [...filteredSameZip,...filteredSameStates]
-        res.status(StatusCodes.OK).json(aroundYou)
+        if (aroundYou.length > 0){res.status(StatusCodes.OK).json(aroundYou)}
+        else{res.status(StatusCodes.BAD_REQUEST).json('no items found')}
     }catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error getting users')
     }
@@ -227,9 +228,9 @@ const following = async (req,res) => {
             })
           );
           
-          console.log(following);
-        
-        res.status(StatusCodes.OK).json(following)
+         if (following.length > 0) { res.status(StatusCodes.OK).json(following)}
+         else{ return res.status(StatusCodes.BAD_REQUEST).json('no items found') }
+       
     }catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error occured')
     }

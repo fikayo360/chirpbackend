@@ -16,7 +16,7 @@ const publishPost = async(req,res) => {
             const notification = await Notification.create({ userId:foundFriend._id,
             ProfilePic:foundFriend.profilepic,
             username:foundFriend.username,
-            body:`${foundFriend.username} added a new post`})
+            body:`${sessionUser.username} added a new post`})
             const saved = await notification.save()
             console.log(saved)
         }))

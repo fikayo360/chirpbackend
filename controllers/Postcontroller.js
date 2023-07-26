@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const User = require('../models/User')
+const Notification = require('../models/Notifications')
 const customError = require('../errors')
 const { StatusCodes } = require('http-status-codes')
 
@@ -10,9 +11,16 @@ const publishPost = async(req,res) => {
         const sessionUser = await User.findOne({username:req.user.username})
         if(!sessionUser){throw new customError.NotFoundError('sesseion user not found')}
         const newPost = await Post.create({userId:sessionUser._id,postImg,postAuthor,postTitle,postBody})
+        const createNotifications = Promise.all(sessionUser.friends.map(async(friend)=>{
+            const notification = await Notification.create({ userId:friend._id,
+            ProfilePic:friend.profilepic,
+            username:friend.username,
+            body:`${sessionUser.username} added a new post`})
+            await notification.save()
+        }))
         res.status(StatusCodes.OK).json('post created ')
     }catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error creating posts ')
+        return res.status(StatusCodes.BAD_REQUEST).json('error creating posts ')
     }
 }
 
@@ -38,7 +46,7 @@ const getFriendsPost = async(req,res) => {
         res.status(StatusCodes.OK).json(posts)
     }
        catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error getting items')
+        return res.status(StatusCodes.BAD_REQUEST).json('error getting items')
     }
 }
 
@@ -54,7 +62,7 @@ const commentPost = async(req,res) => {
         
         res.status(StatusCodes.OK).json('comment added succesfully')
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json(err)
     }
 }
 
@@ -66,7 +74,7 @@ const getPostByUser = async(req,res) => {
         const userPost = await Post.find({userId:sessionUser._id})
         res.status(StatusCodes.OK).json(userPost)
     }catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error occured')
+        return res.status(StatusCodes.BAD_REQUEST).json('error occured')
     }
 }
 
@@ -79,7 +87,7 @@ const getCommentsByPost = async(req,res) => {
         const comments = await Post.findOne({_id:PostId})
         res.status(StatusCodes.OK).json(comments);
     }catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error getting comments');
+        return res.status(StatusCodes.BAD_REQUEST).json('error getting comments');
     }
 }
 
@@ -98,7 +106,7 @@ const likePost = async (req, res) => {
       await currentPost.save();
       res.status(StatusCodes.OK).json('Liked');
     } catch (err) {
-      res.status(StatusCodes.BAD_REQUEST).json('Error occurred');
+      return res.status(StatusCodes.BAD_REQUEST).json('Error occurred');
     }
   };
 

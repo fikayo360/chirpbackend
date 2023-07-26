@@ -14,7 +14,7 @@ const getTopStories = async (req,res) => {
           res.status(StatusCodes.OK).json(newsItems)
         }
     catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')
     }
 }
 
@@ -29,7 +29,7 @@ const getNewsByCategory = async (req,res) => {
           res.status(StatusCodes.OK).json(newsItems)
         }
     catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')
     }
 }
 

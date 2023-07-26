@@ -12,7 +12,7 @@ const createSavedPost = async(req,res) => {
         SavedPostAuthor,SavedPostTitle,SavedPostBody})
         res.status(StatusCodes.OK).json('saved succesfully')
     }catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error saving post')
+        return res.status(StatusCodes.BAD_REQUEST).json('error saving post')
     }
 }
 
@@ -23,7 +23,7 @@ const getSavedPosts = async(req,res) => {
         const savedPosts = await Savedpost.find({userId:sessionUser._id})
         res.status(StatusCodes.OK).json(savedPosts)
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json(err)
     }
 }
 
@@ -36,7 +36,7 @@ const deleteSavedPost = async(req,res) => {
         const deletepost = await Savedpost.findByIdAndDelete({ _id: savedpostId });
         res.status(StatusCodes.OK).json('deleted')
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json(err)
     }
 }
 

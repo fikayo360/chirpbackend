@@ -9,7 +9,7 @@ const {sendEmailConfirmation} = require('../utils/sendEmail')
 const jwt = require('jsonwebtoken');
 
 const register = async(req,res) => {
-    const {username,email,password,state,zipcode} = req.body
+    const {username,email,password} = req.body
 
     if (!username || !email || !password){
         res.status(StatusCodes.BAD_REQUEST).json('fields cant be empty')
@@ -28,14 +28,14 @@ const register = async(req,res) => {
     }
 
     try{
-        const savedUser  = await User.create({username,email, password: bcrypt.hashSync(password, 10),state,zipcode})
+        const savedUser  = await User.create({username,email, password: bcrypt.hashSync(password, 10)})
         const tokenUser = createTokenUser(savedUser)
         attachCookiesToResponse({res,user:tokenUser})
         res.status(StatusCodes.OK).json({user:tokenUser})
        sendEmailConfirmation(savedUser.email)
     }
     catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('err creating user')
     }
 }
 
@@ -61,7 +61,7 @@ const login = async(req,res) => {
      return res.status(StatusCodes.OK).json({ user: others,cookie });
     }
     catch(err){
-        return res.status(StatusCodes.BAD_REQUEST).json(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('error Authenticating user')
     }
 }
 
@@ -75,7 +75,7 @@ const sessionUser = async (req, res) => {
             res.status(StatusCodes.OK).json(others)
     }
     catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('user not found')
     }
 }
 
@@ -93,7 +93,7 @@ const forgotPassword = async (req,res) => {
             res.status(200).json('Reset token sent successfully')
     }
     catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('oops an error occured')
     }
 }
 
@@ -111,12 +111,12 @@ const changePassword = async (req,res) => {
             res.status(StatusCodes.OK).json('password updated successfully');
         }
         else{
-            res.status(StatusCodes.BAD_REQUEST).json('wrong user');
+            return res.status(StatusCodes.BAD_REQUEST).json('wrong user');
         }
         }
       
         catch(err){
-            throw new customError.BadRequestError(err)
+            return res.status(StatusCodes.BAD_REQUEST).json('an error occurred')
         }
 }
 
@@ -132,12 +132,8 @@ const findFriend = async (req,res) => {
         res.status(StatusCodes.OK).json(others)
     }
     catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('user not found')
+        return res.status(StatusCodes.BAD_REQUEST).json('user not found')
     }
-    /*
-    
-    */
-    
 }
 
 const follow = async (req,res) => {
@@ -154,10 +150,10 @@ const follow = async (req,res) => {
             sessionUser.save()
             res.status(StatusCodes.OK).json(`${friendName} added succesfully`)
         }else{
-            res.status(StatusCodes.OK).json(`error adding user`)
+            return res.status(StatusCodes.OK).json(`error adding user`)
         }
     }catch(err){
-        res.status(StatusCodes.OK).json(err)
+       return res.status(StatusCodes.OK).json(`error adding user`)
     }
 }
 
@@ -174,10 +170,10 @@ const unFollow = async (req,res) => {
             res.status(StatusCodes.OK).json(`${friendName} removed succesfully`)
         }
         else{
-            throw new customError.BadRequestError('error occured while removing friend')
+            return res.status(StatusCodes.BAD_REQUEST).json('error occured while removing friend')
         }
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('an error occurred')
     }
 }
 
@@ -193,7 +189,7 @@ const aroundYou = async (req,res) => {
         aroundYou = [...filteredSameZip,...filteredSameStates]
         res.status(StatusCodes.OK).json(aroundYou)
     }catch(err){
-        res.status(StatusCodes.BAD_REQUEST).json('error getting users')
+        return res.status(StatusCodes.BAD_REQUEST).json('error getting users')
     }
 }
 
@@ -211,10 +207,10 @@ const completeProfile = async (req,res) => {
             state: state,
             zipcode: zipcode
           })
-          foundUser.save()
-          res.status(StatusCodes.OK).json(`${sessionUser.username} profile updated `)
+          const updatedUser = await foundUser.save()
+          res.status(StatusCodes.OK).json(`${updatedUser.username} profile updated `)
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('error updating profile')
     }
 }
   
@@ -235,7 +231,7 @@ const following = async (req,res) => {
         
         res.status(StatusCodes.OK).json(following)
     }catch(err){
-        throw new customError.BadRequestError(err)
+        return res.status(StatusCodes.BAD_REQUEST).json('error occured')
     }
 }
 
@@ -260,7 +256,7 @@ const followers = async(req,res) => {
             res.status(StatusCodes.OK).json(followers)
           });
     }catch(err){
-        throw new customError.BadRequestError(err) 
+        return res.status(StatusCodes.BAD_REQUEST).json('error occured') 
     }
 }
 

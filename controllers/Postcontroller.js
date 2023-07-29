@@ -42,11 +42,11 @@ const getFriendsPost = async(req,res) => {
                       { createdAt: { $gte: today } }
                     ]
                   });
-                if (todaysPosts.length > 0) {return [...todaysPosts]}
-                else{return res.status(StatusCodes.BAD_REQUEST).json('no posts found')}
             })
         )
-        res.status(StatusCodes.OK).json(posts)
+        
+        if (todaysPosts.length > 0) {res.status(StatusCodes.OK).json(posts)}
+        else{return res.status(StatusCodes.BAD_REQUEST).json('no posts found')}
     }
        catch(err){
         return res.status(StatusCodes.BAD_REQUEST).json('error getting items')

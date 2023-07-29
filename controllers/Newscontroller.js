@@ -9,7 +9,7 @@ const getTopStories = async (req,res) => {
     try{
         const newsItems = await newsapi.v2.topHeadlines({
             country: 'ng',
-            pageSize:20
+            pageSize:40
           })
           if (newsItems.totalResults > 0) { 
            res.status(StatusCodes.OK).json(newsItems.articles);
@@ -29,7 +29,7 @@ const getNewsByCategory = async (req,res) => {
         const newsItems = await newsapi.v2.topHeadlines({
             country: 'ng',
             category: category,
-            pageSize:20
+            pageSize:40
           })
           if (newsItems.totalResults > 0) { 
            res.status(StatusCodes.OK).json(newsItems.articles);

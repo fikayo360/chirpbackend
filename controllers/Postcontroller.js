@@ -14,7 +14,7 @@ const publishPost = async(req,res) => {
         const createNotifications = Promise.all(sessionUser.friends.map(async(friend)=>{
             const foundFriend = await User.findOne({ username: friend })
             const notification = await Notification.create({ userId:foundFriend._id,
-            ProfilePic:foundFriend.profilepic,
+            ProfilePic:sessionUser.profilepic,
             username:sessionUser.username,
             body:`${sessionUser.username} added a new post`})
             const saved = await notification.save()

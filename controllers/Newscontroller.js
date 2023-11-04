@@ -3,10 +3,11 @@ const customError = require('../errors')
 const { StatusCodes } = require('http-status-codes');
 const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI(process.env.NEWS_API_KEY);
+const tryCatch = require('../utils/tryCatch')
 
 
-const getTopStories = async (req,res) => {
-    try{
+const getTopStories = tryCatch(
+  async (req,res) => {
         const newsItems = await newsapi.v2.topHeadlines({
             country: 'ng',
             pageSize:40
@@ -18,14 +19,11 @@ const getTopStories = async (req,res) => {
           }
           
         }
-    catch(err){
-        return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')
-    }
-}
+) 
 
-const getNewsByCategory = async (req,res) => {
+const getNewsByCategory = tryCatch(
+  async (req,res) => {
     const {category} = req.params
-    try{
         const newsItems = await newsapi.v2.topHeadlines({
             country: 'ng',
             category: category,
@@ -36,10 +34,7 @@ const getNewsByCategory = async (req,res) => {
           }else{
             return res.status(StatusCodes.BAD_REQUEST).json('cant get news items')
           }
-        }
-    catch(err){
-        return res.status(StatusCodes.BAD_REQUEST).json('error getting news items')
-    }
 }
+) 
 
 module.exports = {getTopStories,getNewsByCategory}

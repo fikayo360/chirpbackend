@@ -6,4 +6,6 @@ class AppError extends Error{
     }
 }
 
+let ce = new AppError(500,'internal server error',500)
+
 module.exports = AppError;

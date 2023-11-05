@@ -27,6 +27,8 @@
     "nodemailer": "^6.9.3",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "socket.io": "^4.7.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "validator": "^13.9.0"
   }
 }

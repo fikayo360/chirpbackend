@@ -13,11 +13,25 @@ const savedPostRoute = require('./routes/savedPostRoutes')
 const postRoute = require('./routes/postRoutes')
 const notificationRoute = require('./routes/notificationRoutes')
 const newsRoute = require('./routes/newsRoutes')
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 const appLimiter = rateLimiter({
   windowMs:1000,
   max:100
 })
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "Library API",
+      version: '1.0.0',
+    },
+  },
+  apis: ['./routes/*.js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
@@ -31,7 +45,7 @@ app.use(cors());
 app.use(express.json());
 app.use(notFoundMiddleware())
 app.use(appLimiter())
-
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 const port = process.env.PORT || 5000;

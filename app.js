@@ -3,10 +3,8 @@ const app = express();
 require('dotenv').config();
 require('express-async-errors');
 const cors = require('cors');
-const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 const connectDB = require('./db/connect');
-const cookieParser = require('cookie-parser');
 const rateLimiter = require('express-rate-limit')
 const userRoute = require('./routes/userRoutes')
 const savedPostRoute = require('./routes/savedPostRoutes')
@@ -29,13 +27,17 @@ const swaggerOptions = {
     },
   },
   apis: ['./routes/*.js'],
+  servers: [
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server',
+    },
+  ]
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-app.use(cookieParser(process.env.JWT_SECRET));
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/savedPost', savedPostRoute);
 app.use('/api/v1/post', postRoute);
@@ -43,8 +45,7 @@ app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/news', newsRoute);
 app.use(cors());
 app.use(express.json());
-app.use(notFoundMiddleware())
-app.use(appLimiter())
+app.use(appLimiter)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 

@@ -201,7 +201,6 @@ router.route("/following").get(authUser,following)
  *     responses:
  *       200:
  *         description: Success
- * 
  */
 
 router.route("/followers").get(authUser,followers)

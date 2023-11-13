@@ -32,7 +32,7 @@ const register = tryCatch(
         const savedUser  = await User.create({username,email, password: bcrypt.hashSync(password, 10)})
         const tokenUser = createTokenUser(savedUser)
         attachCookiesToResponse({res,user:tokenUser})
-        res.status(StatusCodes.OK).json({user:tokenUser})
+        res.status(StatusCodes.CREATED).json({user:tokenUser})
         sendEmailConfirmation(savedUser.email)
     }
 ) 

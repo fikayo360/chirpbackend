@@ -22,7 +22,7 @@ const publishPost = tryCatch(
             const saved = await notification.save()
             console.log(saved)
         }))
-        res.status(StatusCodes.OK).json('post created ')
+        res.status(StatusCodes.OK).json('post created')
     }
 )
 

@@ -12,28 +12,33 @@ const tryCatch = require('../utils/tryCatch')
 
 const register = 
     async(req,res) => {
-        const {username,email,password} = req.body
-        console.log({username, email, password})
-        if (!username || !email || !password){
-            res.status(StatusCodes.BAD_REQUEST).json('fields cant be empty')
-          }
-    
-        if(validateEmail(email) === false){
-            res.status(StatusCodes.BAD_REQUEST).json('invalid mail')
-        }
-    
-        const foundUser = await User.findOne({username})
+        try{
+            const {username,email,password} = req.body
+            console.log(username, email, password)
+            if (!username || !email || !password){
+                res.status(StatusCodes.BAD_REQUEST).json('fields cant be empty')
+              }
         
-        const foundEmail = await User.findOne({email})
-    
-        if (foundEmail || foundUser) {
-            res.status(StatusCodes.BAD_REQUEST).json('user already exists')
+            if(validateEmail(email) === false){
+                res.status(StatusCodes.BAD_REQUEST).json('invalid mail')
+            }
+        
+            const foundUser = await User.findOne({username})
+            
+            const foundEmail = await User.findOne({email})
+        
+            if (foundEmail || foundUser) {
+                res.status(StatusCodes.BAD_REQUEST).json('user already exists')
+            }
+            const savedUser  = await User.create({username,email, password: bcrypt.hashSync(password, 10)})
+            const tokenUser = createTokenUser(savedUser)
+            attachCookiesToResponse({res,user:tokenUser})
+            res.status(StatusCodes.CREATED).json({user:tokenUser})
+            sendEmailConfirmation(savedUser.email)
         }
-        const savedUser  = await User.create({username,email, password: bcrypt.hashSync(password, 10)})
-        const tokenUser = createTokenUser(savedUser)
-        attachCookiesToResponse({res,user:tokenUser})
-        res.status(StatusCodes.CREATED).json({user:tokenUser})
-        sendEmailConfirmation(savedUser.email)
+       catch(err){
+           return res.status(StatusCodes.BAD_REQUEST).json('eerro')
+       }
     }
 
 const login = tryCatch(

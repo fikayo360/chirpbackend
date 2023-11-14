@@ -8,7 +8,7 @@ const {authUser} = require('../middleware/auth')
  * /createSavedPost:
  *   post:
  *     description: create a new saved post
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -23,34 +23,36 @@ const {authUser} = require('../middleware/auth')
  *                 type: string
  *               SavedPostBody:
  *                 type: string
- *  responses:
+ *     responses:
  *       201:
- *         description: saved post created succesfully
+ *         description: saved post created successfully
  */
+
 router.route("/createSavedPost").post(authUser,createSavedPost)
 /**
  * @swagger
  * /getSavedPosts:
- *   gegt:
+ *   get:
  *     description: get saved posts
  */
 router.route("/getSavedPosts").get(authUser,getSavedPosts)
 /**
  * @swagger
- * /deleteSavedPost/:savedpostId:
+ * /deleteSavedPost/{savedpostId}:
  *   post:
- *     description: create a new user
- *  parameters:
+ *     description: delete a saved post
+ *     parameters:
  *       - in: path
  *         name: savedpostId
  *         required: true
  *         description: ID of the saved post
  *         schema:
  *           type: string
- * responses:
+ *     responses:
  *       200:
  *         description: deleted
  */
+
 router.route("/deleteSavedPost/{savedpostId}").delete(authUser,deleteSavedPost)
 
 

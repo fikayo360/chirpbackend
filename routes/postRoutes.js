@@ -8,7 +8,7 @@ const {authUser} = require('../middleware/auth')
  * /publish:
  *   post:
  *     description: create a new post
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -23,10 +23,11 @@ const {authUser} = require('../middleware/auth')
  *                 type: string
  *               postBody:
  *                 type: string
- *  responses:
+ *     responses:
  *       201:
- *         description: post created succesfully
+ *         description: post created successfully
  */
+
 router.route("/publish").post(authUser,publishPost)
 /**
  * @swagger
@@ -34,13 +35,14 @@ router.route("/publish").post(authUser,publishPost)
  *   get:
  *     description: get friends post
  */
+
 router.route("/getFriendsPost").get(authUser,getFriendsPost)
 /**
  * @swagger
  * /commentPost:
  *   post:
  *     description: create a new comment
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -55,9 +57,9 @@ router.route("/getFriendsPost").get(authUser,getFriendsPost)
  *                 type: string
  *               PostcommentProfilePic:
  *                 type: string
- *  responses:
+ *     responses:
  *       201:
- *         description: comment added succesfully
+ *         description: comment added successfully
  */
 router.route("/commentPost").post(authUser,commentPost)
 /**
@@ -65,7 +67,7 @@ router.route("/commentPost").post(authUser,commentPost)
  * /LikePost:
  *   post:
  *     description: like a post
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -76,8 +78,7 @@ router.route("/commentPost").post(authUser,commentPost)
  *                 type: string
  *               postId:
  *                 type: string
- *              
- *  responses:
+ *     responses:
  *       200:
  *         description: liked post
  */
@@ -85,14 +86,14 @@ router.route("/LikePost").post(authUser,likePost)
 /**
  * @swagger
  * /postByUser:
- *   post:
+ *   get:
  *     description: gets post by user
  */
 router.route("/postByUser").get(authUser,getPostByUser)
 /**
  * @swagger
- * /createSavedPost:
- *   post:
+ * /getComments:
+ *   get:
  *     description: get comments by post
  */
 router.route("/getComments").get(authUser,getCommentsByPost)

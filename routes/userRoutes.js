@@ -21,7 +21,7 @@ const signupLimiter = rateLimiter({
  * /signup:
  *   post:
  *     description: create a new user
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -34,10 +34,11 @@ const signupLimiter = rateLimiter({
  *                 type: string
  *               password:
  *                 type: string
- *   responses:
+ *     responses:
  *       201:
  *         description: user created successfully
  */
+
 
 router.route("/signup").post(signupLimiter,register)
 
@@ -45,8 +46,8 @@ router.route("/signup").post(signupLimiter,register)
  * @swagger
  * /login:
  *   post:
- *     description: authenticate user 
- * requestBody:
+ *     description: authenticate user
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -56,7 +57,7 @@ router.route("/signup").post(signupLimiter,register)
  *               username:
  *                 type: string
  *               password:
- *                 type: string 
+ *                 type: string
  */
 
 router.route("/login").post(LoginLimiter,login)
@@ -66,7 +67,7 @@ router.route("/login").post(LoginLimiter,login)
  * /search:
  *   post:
  *     description: search for a user
- * requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -75,7 +76,6 @@ router.route("/login").post(LoginLimiter,login)
  *             properties:
  *               username:
  *                 type: string
- * 
  */
 
 router.route("/search").post(authUser,findFriend)
@@ -84,7 +84,7 @@ router.route("/search").post(authUser,findFriend)
  * /forgotPassword:
  *   post:
  *     description: forgot password
- * requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -96,7 +96,6 @@ router.route("/search").post(authUser,findFriend)
  *     responses:
  *       200:
  *         description: Reset token sent successfully
- * 
  */
 
 router.route("/forgotPassword").post(forgotPassword)
@@ -105,7 +104,7 @@ router.route("/forgotPassword").post(forgotPassword)
  * /changePassword:
  *   post:
  *     description: change password
- * requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -121,7 +120,6 @@ router.route("/forgotPassword").post(forgotPassword)
  *     responses:
  *       200:
  *         description: password updated successfully
- * 
  */
 
 router.route("/changePassword").post(changePassword)
@@ -130,7 +128,7 @@ router.route("/changePassword").post(changePassword)
  * /follow/{friendName}:
  *   get:
  *     description: follow a user
- *   parameters:
+ *     parameters:
  *       - in: path
  *         name: friendName
  *         required: true
@@ -139,8 +137,7 @@ router.route("/changePassword").post(changePassword)
  *           type: string
  *     responses:
  *       200:
- *         description: added succesfully
- * 
+ *         description: added successfully
  */
 
 router.route("/follow/:friendName").get(authUser,follow)
@@ -152,16 +149,15 @@ router.route("/follow/:friendName").get(authUser,follow)
  *     responses:
  *       200:
  *         description: Success
- * 
  */
 
 router.route("/getUser").get(authUser,sessionUser)
 /**
  * @swagger
- * /unfollow/:friendName:
+ * /unfollow/{friendName}:
  *   get:
  *     description: look for a user and remove 
- *      parameters:
+ *     parameters:
  *       - in: path
  *         name: friendName
  *         required: true
@@ -170,8 +166,7 @@ router.route("/getUser").get(authUser,sessionUser)
  *           type: string
  *     responses:
  *       200:
- *         description: removed succesfully
- * 
+ *         description: removed successfully
  */
 
 router.route("/unfollow/:friendName").get(authUser,unFollow)
@@ -180,7 +175,9 @@ router.route("/unfollow/:friendName").get(authUser,unFollow)
  * /aroundYou:
  *   get:
  *     description: Get people around you
- * 
+ *     responses:
+ *       200:
+ *         description: Success
  */
 
 router.route("/aroundYou").get(authUser,aroundYou)
@@ -188,7 +185,10 @@ router.route("/aroundYou").get(authUser,aroundYou)
  * @swagger
  * /following:
  *   get:
- *     description: returns all a users followers
+ *     description: Returns all a user's followers
+ *     responses:
+ *       200:
+ *         description: Success
  */
 
 router.route("/following").get(authUser,following)
@@ -197,7 +197,7 @@ router.route("/following").get(authUser,following)
  * @swagger
  * /followers:
  *   get:
- *     description: return a lists of people are following a user
+ *     description: Return a list of people following a user
  *     responses:
  *       200:
  *         description: Success
@@ -208,8 +208,8 @@ router.route("/followers").get(authUser,followers)
  * @swagger
  * /updateProfile:
  *   post:
- *     description: update a profile
- *    requestBody:
+ *     description: Update a profile
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -230,8 +230,7 @@ router.route("/followers").get(authUser,followers)
  *                 type: string
  *     responses:
  *       200:
- *         description: profile updated
- * 
+ *         description: Profile updated
  */
 
 router.route("/updateProfile").post(authUser,completeProfile)

@@ -9,13 +9,14 @@ const {authUser} = require('../middleware/auth')
  *   get:
  *     description: get all notifications
  */
+
 router.route("/getAll").get(authUser,getNotications)
 /**
  * @swagger
  * /createNotification:
  *   post:
  *     description: create a new notification
- *  requestBody:
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -28,7 +29,7 @@ router.route("/getAll").get(authUser,getNotications)
  *                 type: string
  *               body:
  *                 type: string
- *   responses:
+ *     responses:
  *       201:
  *         description: saved successfully
  */

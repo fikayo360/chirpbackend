@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=5000",
+    "test": "jest",
     "start": "node app.js"
   },
   "author": "",
@@ -33,5 +33,10 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.8",
+    "@types/supertest": "^2.0.16",
+    "ts-jest": "^29.1.1"
   }
 }

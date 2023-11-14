@@ -7,15 +7,15 @@ const {authUser} = require('../middleware/auth')
  * @swagger
  * /getTopStories:
  *   get:
- *     description: get top stories from news api 
+ *     description: get top stories from news api
  */
 router.route("/getTopStories").get(authUser,getTopStories)
 /**
  * @swagger
- * /getNewsCategory/:category
+ * /getNewsCategory/{category}:
  *   get:
  *     description: get news by category
- *   parameters:
+ *     parameters:
  *       - in: path
  *         name: category
  *         required: true
@@ -23,6 +23,8 @@ router.route("/getTopStories").get(authUser,getTopStories)
  *         schema:
  *           type: string
  */
+
+
 router.route("/getNewsCategory/:category").get(authUser,getNewsByCategory)
 
 module.exports = router

@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const {wrappedUser,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser} = require('../controllers/Usercontroller')
+const {register,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser} = require('../controllers/Usercontroller')
 const {authUser} = require('../middleware/auth')
 const rateLimiter = require('express-rate-limit')
 
@@ -40,7 +40,7 @@ const signupLimiter = rateLimiter({
  */
 
 
-router.route("/signup").post(signupLimiter,wrappedUser)
+router.route("/signup").post(signupLimiter,register)
 
 /**
  * @swagger

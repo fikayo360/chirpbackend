@@ -13,7 +13,6 @@ const tryCatch = require('../utils/tryCatch')
 const register = 
     async(req,res) => {
         const {username,email,password} = req.body
-        console.log(username, email, password)
     
         if (!username || !email || !password){
             res.status(StatusCodes.BAD_REQUEST).json('fields cant be empty')
@@ -237,6 +236,4 @@ const followers = tryCatch(
     }
 ) 
 
-const wrappedUser = tryCatch(register)
-
-module.exports = {wrappedUser,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser}
+module.exports = {register,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser}

@@ -37,13 +37,14 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.set('trust proxy', 1);
-app.use(errorHandlerMiddleware);
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/savedPost', savedPostRoute);
 app.use('/api/v1/post', postRoute);
 app.use('/api/v1/notification', notificationRoute);
 app.use('/api/v1/news', newsRoute);
+app.use(errorHandlerMiddleware);
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(appLimiter)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));

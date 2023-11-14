@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const tryCatch = require('../utils/tryCatch')
 
 
-const register = tryCatch(
+const register = 
     async(req,res) => {
         const {username,email,password} = req.body
     
@@ -35,7 +35,6 @@ const register = tryCatch(
         res.status(StatusCodes.CREATED).json({user:tokenUser})
         sendEmailConfirmation(savedUser.email)
     }
-) 
 
 const login = tryCatch(
     async(req,res) => {
@@ -237,4 +236,6 @@ const followers = tryCatch(
     }
 ) 
 
-module.exports = {register,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser}
+const wrappedUser = tryCatch(register)
+
+module.exports = {wrappedUser,login,forgotPassword,changePassword,findFriend,follow,unFollow,aroundYou,following,followers,completeProfile,sessionUser}

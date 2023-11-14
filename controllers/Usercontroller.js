@@ -13,7 +13,7 @@ const tryCatch = require('../utils/tryCatch')
 const register = 
     async(req,res) => {
         const {username,email,password} = req.body
-    
+        console.log({username, email, password})
         if (!username || !email || !password){
             res.status(StatusCodes.BAD_REQUEST).json('fields cant be empty')
           }

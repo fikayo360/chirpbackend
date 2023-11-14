@@ -36,7 +36,7 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
+app.set('trust proxy', 1);
 app.use(errorHandlerMiddleware);
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/savedPost', savedPostRoute);
